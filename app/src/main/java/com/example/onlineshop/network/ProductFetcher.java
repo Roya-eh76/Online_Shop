@@ -1,5 +1,6 @@
 package com.example.onlineshop.network;
 
+import com.example.onlineshop.model.CategoriesItem;
 import com.example.onlineshop.model.Product;
 import com.example.onlineshop.network.interfaces.ServiceProduct;
 
@@ -23,10 +24,10 @@ public class ProductFetcher {
 
 
     public ProductFetcher(ProductFetcherCallbacks productFetcherCallbacks) {
-        mProductFetcherCallbacks=productFetcherCallbacks;
+        mProductFetcherCallbacks = productFetcherCallbacks;
 
         mQueries = new HashMap<String, String>() {{
-            put("consumer_key","ck_d05c3784194d242f00bb17531891c079fbaab282");
+            put("consumer_key", "ck_d05c3784194d242f00bb17531891c079fbaab282");
             put("consumer_secret", "cs_eea2f7bb6ee5ac731f2b5d8078a1ae9c83852cb8");
 
         }};
@@ -39,26 +40,52 @@ public class ProductFetcher {
         mServiceProduct = mRetrofit.create(ServiceProduct.class);
     }
 
-    public void getAllProduct() {
-        Call<List<Product>> call = mServiceProduct.getProductBody(mQueries);
-        call.enqueue(getRetrofitCallback());
+    public void getAllCategori() {
+        Call<List<CategoriesItem>> call = mServiceProduct.getAllCategories();
+        call.enqueue(getRetrofitCategoriCallBack());
     }
 
     public void getProduct(String str) {
-       /* Call<List<Product>> call = mServiceProduct.getAllProducts();
-        call.enqueue(getRetrofitCallback());*/
+        Call<List<Product>> call = mServiceProduct.getAllProducts(str);
+        call.enqueue(getRetrofitProductCallback(str));
+    }
+    private Callback<List<CategoriesItem>> getRetrofitCategoriCallBack(){
+        return new Callback<List<CategoriesItem>>() {
+            @Override
+            public void onResponse(Call<List<CategoriesItem>> call, Response<List<CategoriesItem>> response) {
+                if(response.isSuccessful())
+                {
+                    List<CategoriesItem> categoriesItems=response.body();
+                    mProductFetcherCallbacks.onCategoriResponse(categoriesItems);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriesItem>> call, Throwable t) {
+
+            }
+        };
     }
 
 
-
-    private Callback<List<Product>> getRetrofitCallback(){
+    private Callback<List<Product>> getRetrofitProductCallback(final String str) {
         return new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                if(response.isSuccessful()) {
-                    List<Product> product =  response.body();
-                    mProductFetcherCallbacks.onLastProductResponse(product);
+                if (response.isSuccessful()) {
+
+                    List<Product> product = response.body();
+                    if(str==null)
+                        return;
+                    if (str.equals("date") )
+                        mProductFetcherCallbacks.onLastProductResponse(product);
+                    if(str.equals("popularity"))
+                        mProductFetcherCallbacks.onMostVisitedProductResponse(product);
+                    if(str.equals("rating"))
+                        mProductFetcherCallbacks.onBestProductResponse(product);
+
                 }
+
             }
 
             @Override
@@ -70,8 +97,12 @@ public class ProductFetcher {
 
     public interface ProductFetcherCallbacks {
         void onLastProductResponse(List<Product> items);
-        void onNewProductResponse(List<Product> items);
+
         void onBestProductResponse(List<Product> items);
+
+        void onMostVisitedProductResponse(List<Product> items);
+
+        void onCategoriResponse(List<CategoriesItem> categoriesItems);
     }
 
 }

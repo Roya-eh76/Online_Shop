@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group>
+        <item android:id="@+id/home_item"
+            android:icon="@drawable/baseline_home_white_18dp"
+            app:showAsAction="always"
+            android:title="خانه"
+            />
+        <item android:id="@+id/list_item"
+            android:icon="@drawable/baseline_toc_white_18dp"
+            app:showAsAction="always"
+            android:title="لیست دسته بندی محصولات"
+            />
+
+    </group>
+    <group>
+        <item android:id="@+id/shop_item"
+            android:icon="@drawable/baseline_shopping_cart_white_18dp"
+            app:showAsAction="always"
+            android:title="سبد خرید"
+            />
+
+    </group>
+    <group>
+        <item android:id="@+id/por_frosh_item"
+            android:icon="@drawable/baseline_star_white_18dp"
+            app:showAsAction="always"
+            android:title="پر فروش ترین ها"
+            />
+        <item android:id="@+id/pish_vije_item"
+            android:icon="@drawable/baseline_star_white_18dp"
+            app:showAsAction="always"
+            android:title="پیشنهاد ویژه"
+            />
+        <item android:id="@+id/por_bazdid_item"
+            android:icon="@drawable/baseline_star_white_18dp"
+            app:showAsAction="always"
+            android:title="پر بازدیدترین ها"
+            />
+        <item android:id="@+id/jadid_tarin_item"
+            android:icon="@drawable/baseline_star_white_18dp"
+            app:showAsAction="always"
+            android:title="جدید ترین ها"
+            />
+
+    </group>
+    <group>
+        <item
+            android:id="@+id/setting_item"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="تنظیمات"
+            app:showAsAction="always" />
+    </group>
+
+</menu>

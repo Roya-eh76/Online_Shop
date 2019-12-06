@@ -2,10 +2,8 @@ package com.example.onlineshop.network.interfaces;
 
 import com.example.onlineshop.model.CategoriesItem;
 import com.example.onlineshop.model.Product;
-
 import java.util.List;
 import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -21,4 +19,7 @@ public interface ServiceProduct {
 
     @GET("products/?")
     Call<List<Product>> getAllProducts(@Query("orderby") String orderType);
+
+    @GET("products/categories")
+    Call<List<CategoriesItem>> getAllCategories();
 }
