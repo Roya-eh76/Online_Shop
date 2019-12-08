@@ -19,8 +19,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page_activity);
-        Toolbar toolbar=findViewById(R.id.toolber_activity);
-        setSupportActionBar(toolbar);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
         if (fragment == null)
@@ -31,9 +30,5 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_home_page, menu);
-        return true;
-    }
+
 }

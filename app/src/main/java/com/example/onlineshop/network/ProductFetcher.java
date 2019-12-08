@@ -41,12 +41,12 @@ public class ProductFetcher {
     }
 
     public void getAllCategori() {
-        Call<List<CategoriesItem>> call = mServiceProduct.getAllCategories();
+        Call<List<CategoriesItem>> call = mServiceProduct.getAllCategories(mQueries);
         call.enqueue(getRetrofitCategoriCallBack());
     }
 
     public void getProduct(String str) {
-        Call<List<Product>> call = mServiceProduct.getAllProducts(str);
+        Call<List<Product>> call = mServiceProduct.getAllProducts(str,mQueries);
         call.enqueue(getRetrofitProductCallback(str));
     }
     private Callback<List<CategoriesItem>> getRetrofitCategoriCallBack(){

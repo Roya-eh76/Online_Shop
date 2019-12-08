@@ -1,6 +1,7 @@
 package com.example.onlineshop.controller;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,8 +14,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.onlineshop.R;
+import com.example.onlineshop.Repositori.Repository;
 import com.example.onlineshop.model.CategoriesItem;
 import com.example.onlineshop.model.EnumSeparate;
+import com.example.onlineshop.model.EnumSeparateProduct;
 import com.example.onlineshop.model.Product;
 import com.example.onlineshop.network.ProductFetcher;
 
@@ -25,18 +28,18 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomePageFragment extends Fragment implements ProductFetcher.ProductFetcherCallbacks {
+public class HomePageFragment extends Fragment {
     private com.daimajia.slider.library.SliderLayout slider;
     private RecyclerView recyclerViewLastProduct, recyclerViewMostVisitedProducts,
             recyclerViewBestProduct, recyclerViewCategori;
-    private TextView txtViewfullBestProduct, txtViewfullMostVisitedProduct,
-            txtViewfullNewProduct;
+    private TextView txtViewFullBestProduct, txtViewFullMostVisitedProduct,
+            txtViewFullLastProduct;
     private List<Product> mListBestProduct = new ArrayList<>();
     private List<Product> mListMostVisitedProduct = new ArrayList<>();
     private List<Product> mListLastProduct = new ArrayList<>();
     private List<CategoriesItem> mListCategori = new ArrayList<>();
     private ListAdapter bestListAdapter, lastListAdapter, mostVisitedListAdapter, categoriListAdapter;
-    private ProductFetcher productFetcher;
+    private Repository repository;
 
 
     public static HomePageFragment newInstance() {
@@ -62,10 +65,17 @@ public class HomePageFragment extends Fragment implements ProductFetcher.Product
         init(view);
         clickable();
 
-        lastProductSetAdapter();
-        BestProductSetAdapter();
-        mostVisitedProductSetAdapter();
-        categoriListSetAdapter();
+
+        repository=Repository.getInstance();
+        mListBestProduct=repository.getBestProduct();
+        mListLastProduct=repository.getLastProduct();
+        mListMostVisitedProduct=repository.getMostVisitedProduct();
+        mListCategori=repository.getCategori();
+
+        bestListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage);
+        categoriListAdapter = new ListAdapter(getContext(), EnumSeparate.categori);
+        lastListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage);
+        mostVisitedListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage);
 
 
         recyclerViewLastProduct.setLayoutManager(new LinearLayoutManager(getContext()
@@ -79,7 +89,15 @@ public class HomePageFragment extends Fragment implements ProductFetcher.Product
         recyclerViewCategori.setLayoutManager(new LinearLayoutManager(getContext()
                 , RecyclerView.HORIZONTAL, false));
 
-        update();
+        lastProductSetAdapter();
+        BestProductSetAdapter();
+        mostVisitedProductSetAdapter();
+        categoriListSetAdapter();
+
+
+
+
+
 
 
         return view;
@@ -91,100 +109,64 @@ public class HomePageFragment extends Fragment implements ProductFetcher.Product
         recyclerViewMostVisitedProducts = view.findViewById(R.id.recyclerViewMostVisitedProducts);
         recyclerViewBestProduct = view.findViewById(R.id.recyclerViewBestProduct);
         recyclerViewCategori = view.findViewById(R.id.recyclerViewCategori);
-        txtViewfullBestProduct = view.findViewById(R.id.txtViewfullBestProduct);
-        txtViewfullMostVisitedProduct = view.findViewById(R.id.txtViewfullMostVisitedProduct);
-        txtViewfullNewProduct = view.findViewById(R.id.txtViewfullNewProduct);
+        txtViewFullBestProduct = view.findViewById(R.id.txtViewfullBestProduct);
+        txtViewFullMostVisitedProduct = view.findViewById(R.id.txtViewfullMostVisitedProduct);
+        txtViewFullLastProduct = view.findViewById(R.id.txtViewfullNewProduct);
         slider = view.findViewById(R.id.slider);
 
     }
 
     private void clickable() {
-        txtViewfullBestProduct.setOnClickListener(new View.OnClickListener() {
+        txtViewFullBestProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+               Intent intent=SeparateListPageActivity.newIntent(getContext(),"best");
+               startActivity(intent);
             }
         });
-        txtViewfullMostVisitedProduct.setOnClickListener(new View.OnClickListener() {
+        txtViewFullMostVisitedProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=SeparateListPageActivity.newIntent(getContext(),"most");
+                startActivity(intent);
             }
         });
-        txtViewfullNewProduct.setOnClickListener(new View.OnClickListener() {
+        txtViewFullLastProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=SeparateListPageActivity.newIntent(getContext(),"last");
+                startActivity(intent);
             }
         });
     }
 
 
-    @Override
-    public void onBestProductResponse(List<Product> items) {
 
-        mListBestProduct = items;
-        BestProductSetAdapter();
-
-
-    }
-
-    @Override
-    public void onMostVisitedProductResponse(List<Product> items) {
-
-        mListMostVisitedProduct = items;
-        mostVisitedProductSetAdapter();
-
-
-    }
-
-    @Override
-    public void onCategoriResponse(List<CategoriesItem> categoriesItems) {
-        mListCategori = categoriesItems;
-        categoriListSetAdapter();
-
-    }
-
-
-    @Override
-    public void onLastProductResponse(List<Product> items) {
-        mListLastProduct = items;
-
-        lastProductSetAdapter();
-
-    }
-
-    public void update() {
-        productFetcher = new ProductFetcher(this);
-        productFetcher.getProduct("rating");
-        productFetcher.getProduct("popularity");
-        productFetcher.getProduct("date");
-        productFetcher.getAllCategori();
-
-    }
 
     private void lastProductSetAdapter() {
-        lastListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage);
         lastListAdapter.setmListProduct(mListLastProduct);
         recyclerViewLastProduct.setAdapter(lastListAdapter);
+        lastListAdapter.notifyDataSetChanged();
 
     }
 
     private void mostVisitedProductSetAdapter() {
-        mostVisitedListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage);
         mostVisitedListAdapter.setmListProduct(mListMostVisitedProduct);
         recyclerViewMostVisitedProducts.setAdapter(mostVisitedListAdapter);
+        mostVisitedListAdapter.notifyDataSetChanged();
     }
 
     private void BestProductSetAdapter() {
-        bestListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage);
         bestListAdapter.setmListProduct(mListBestProduct);
         recyclerViewBestProduct.setAdapter(bestListAdapter);
+        bestListAdapter.notifyDataSetChanged();
+
     }
 
     private void categoriListSetAdapter() {
-        categoriListAdapter = new ListAdapter(getContext(), EnumSeparate.categori);
         categoriListAdapter.setmListCategori(mListCategori);
         recyclerViewCategori.setAdapter(categoriListAdapter);
+        categoriListAdapter.notifyDataSetChanged();
+
     }
 }

@@ -18,8 +18,8 @@ public interface ServiceProduct {
     Call<List<CategoriesItem>> getProductCategory(@QueryMap Map<String, String> categoryQueries);
 
     @GET("products/?")
-    Call<List<Product>> getAllProducts(@Query("orderby") String orderType);
+    Call<List<Product>> getAllProducts(@Query("orderby") String orderType,@QueryMap  Map<String, String> productQueries);
 
     @GET("products/categories")
-    Call<List<CategoriesItem>> getAllCategories();
+    Call<List<CategoriesItem>> getAllCategories(@QueryMap  Map<String, String> productQueries);
 }
