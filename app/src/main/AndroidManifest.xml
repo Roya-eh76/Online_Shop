@@ -12,15 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".controller.SingleFragmentActivity"></activity>
-        <activity android:name=".controller.HomePageActivity">
+        <activity android:name=".view.SingleFragmentActivity"></activity>
+        <activity android:name=".view.HomePageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controller.SeparateListPageActivity"></activity>
+        <activity android:name=".view.SeparateListPageActivity"></activity>
 
     </application>
 
