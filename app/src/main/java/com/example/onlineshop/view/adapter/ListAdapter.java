@@ -1,4 +1,4 @@
-package com.example.onlineshop.view;
+package com.example.onlineshop.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +16,7 @@ import com.example.onlineshop.databinding.ItemListProductBinding;
 import com.example.onlineshop.model.CategoriesItem;
 import com.example.onlineshop.model.EnumSeparate;
 import com.example.onlineshop.model.Product;
+import com.example.onlineshop.view.activity.ProductDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -95,11 +96,12 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(binding.getRoot());
             mBinding = binding;
 
+
             binding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent=ProductDetailActivity.newIntent(mContext);
+                    Intent intent= ProductDetailActivity.newIntent(mContext,mProduct.getId());
                     mContext.startActivity(intent);
                 }
             });

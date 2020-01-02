@@ -27,6 +27,7 @@ public class ProductRepositori {
     private MutableLiveData<List<Product>> mMostVisitedProductLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mLastProductLiveData = new MutableLiveData<>();
     private MutableLiveData<List<CategoriesItem>> mCategoriLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Product>>  mAllProduct=new MutableLiveData<>();
 
 
     public static ProductRepositori getInstance(){
@@ -53,6 +54,10 @@ public class ProductRepositori {
         return mLastProductLiveData;
     }
 
+    public MutableLiveData<List<Product>> getmAllProduct() {
+        return mAllProduct;
+    }
+
     private ProductRepositori() {
         mQueries = new HashMap<String, String>() {{
             put("consumer_key", "ck_d05c3784194d242f00bb17531891c079fbaab282");
@@ -76,6 +81,26 @@ public class ProductRepositori {
     public void getProduct(String str) {
         Call<List<Product>> call = mServiceProduct.getAllProducts(str,mQueries);
         call.enqueue(getRetrofitProductCallback(str));
+    }
+
+    public void getAllProducts(){
+        Call<List<Product>> call=mServiceProduct.getProductBody(mQueries);
+        call.enqueue(getRetrofitProductsCallback());
+    }
+
+    private Callback<List<Product>> getRetrofitProductsCallback(){
+        return new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+               List<Product> products=response.body();
+               mAllProduct.setValue(products);
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+
+            }
+        };
     }
 
     private Callback<List<CategoriesItem>> getRetrofitCategoriCallBack(){
@@ -111,7 +136,6 @@ public class ProductRepositori {
                     if(str.equals("date") ) {
                         //  mProductFetcherCallbacks.onLastProductResponse(product);
                         mLastProductLiveData.setValue(product);
-
                     }if(str.equals("popularity")) {
                         mMostVisitedProductLiveData.setValue(product);
                     } //  mProductFetcherCallbacks.onMostVisitedProductResponse(product);

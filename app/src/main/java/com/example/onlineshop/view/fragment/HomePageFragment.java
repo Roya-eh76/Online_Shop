@@ -1,17 +1,13 @@
-package com.example.onlineshop.view;
+package com.example.onlineshop.view.fragment;
 
 
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,15 +16,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.onlineshop.R;
 import com.example.onlineshop.databinding.FragmentHomePageBinding;
 import com.example.onlineshop.model.CategoriesItem;
 import com.example.onlineshop.model.EnumSeparate;
 import com.example.onlineshop.model.Product;
 import com.example.onlineshop.network.ProductRepositori;
+import com.example.onlineshop.view.adapter.ListAdapter;
+import com.example.onlineshop.view.activity.SeparateListPageActivity;
 import com.example.onlineshop.viewmodel.ViewModelHomePageActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -118,6 +120,7 @@ public class HomePageFragment extends Fragment {
                 , container
                 , false);
 
+
         productRepositori.getProduct("rating");
         productRepositori.getProduct("popularity");
         productRepositori.getProduct("date");
@@ -203,6 +206,34 @@ public class HomePageFragment extends Fragment {
         mBinding.recyclerViewCategori.setAdapter(categoriListAdapter);
         categoriListAdapter.notifyDataSetChanged();
 
+    }
+    private void setupSlider() {
+
+        HashMap<String, String> url_maps = new HashMap<>();
+        url_maps.put("لوازم برقی", "https://bucket-15.digicloud-oss.com/digikala-adservice-banners/1000012855.jpg");
+        url_maps.put("صوتی و تصویری", "https://bucket-15.digicloud-oss.com/digikala-adservice-banners/1000012860.jpg");
+        url_maps.put("مراقبت از پوست", "https://bucket-15.digicloud-oss.com/digikala-adservice-banners/1000012909.jpg");
+        url_maps.put("لذت از لحظات", "https://bucket-15.digicloud-oss.com/digikala-adservice-banners/1000013192.jpg");
+
+
+        for (String name : url_maps.keySet()) {
+            TextSliderView textSliderView = new TextSliderView(getContext());
+            // initialize a SliderLayout
+            textSliderView
+                    .description(name)
+                    .image(url_maps.get(name))
+                    .setScaleType(BaseSliderView.ScaleType.Fit);
+
+            //add your extra information
+            textSliderView.bundle(new Bundle());
+            textSliderView.getBundle()
+                    .putString("extra", name);
+
+            mBinding.slider.addSlider(textSliderView);
+        }
+        mBinding.slider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        mBinding.slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mBinding.slider.setDuration(5000);
     }
 
 }

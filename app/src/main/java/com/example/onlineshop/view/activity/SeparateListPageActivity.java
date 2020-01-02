@@ -1,10 +1,12 @@
-package com.example.onlineshop.view;
+package com.example.onlineshop.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.onlineshop.view.fragment.SeparateListPageFragment;
 
 public class SeparateListPageActivity extends SingleFragmentActivity {
     public static final String PUT_EXTRA_PRODUCT_NAME = "PUT_EXTRA_PRODUCT_NAME";

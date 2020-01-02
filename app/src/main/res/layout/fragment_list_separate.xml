@@ -31,9 +31,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
+                    android:layout_weight="0.5"
                     android:background="@drawable/ic_format_list_bulleted_black_24dp"></ImageView>
 
                 <LinearLayout
@@ -121,14 +121,19 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewSeparateListProduct"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardview1" />
+            app:layout_constraintTop_toBottomOf="@+id/cardview1">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewSeparateListProduct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+               android:layout_margin="10dp" />
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

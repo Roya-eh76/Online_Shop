@@ -644,7 +644,8 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            <androidx.cardview.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/cv_product_details_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

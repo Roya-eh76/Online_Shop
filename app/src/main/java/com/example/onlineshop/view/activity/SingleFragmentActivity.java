@@ -1,4 +1,4 @@
-package com.example.onlineshop.view;
+package com.example.onlineshop.view.activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;

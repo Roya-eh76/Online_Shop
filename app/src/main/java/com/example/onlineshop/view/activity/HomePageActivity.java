@@ -1,4 +1,4 @@
-package com.example.onlineshop.view;
+package com.example.onlineshop.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.onlineshop.R;
+import com.example.onlineshop.view.fragment.HomePageFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomePageActivity extends SingleFragmentActivity implements NavigationView.OnNavigationItemSelectedListener {

@@ -1,4 +1,4 @@
-package com.example.onlineshop.view;
+package com.example.onlineshop.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.onlineshop.R;
 
 import com.example.onlineshop.databinding.FragmentListSeparateBinding;
-import com.example.onlineshop.model.CategoriesItem;
 import com.example.onlineshop.model.EnumSeparate;
 import com.example.onlineshop.model.Product;
 import com.example.onlineshop.network.ProductRepositori;
+import com.example.onlineshop.view.adapter.ListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
