@@ -1,13 +1,18 @@
 package com.example.onlineshop.view;
 
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +26,7 @@ import com.example.onlineshop.model.CategoriesItem;
 import com.example.onlineshop.model.EnumSeparate;
 import com.example.onlineshop.model.Product;
 import com.example.onlineshop.network.ProductRepositori;
+import com.example.onlineshop.viewmodel.ViewModelHomePageActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +41,12 @@ public class HomePageFragment extends Fragment {
     private List<Product> mListMostVisitedProduct = new ArrayList<>();
     private List<Product> mListLastProduct = new ArrayList<>();
     private List<CategoriesItem> mListCategori = new ArrayList<>();
-    private ListAdapter bestListAdapter, lastListAdapter, mostVisitedListAdapter, categoriListAdapter;
     private FragmentHomePageBinding mBinding;
-    private ProductRepositori productFetcher;
+    private ViewModelHomePageActivity mViewModelHomePageActivity;
+    private ProductRepositori productRepositori = ProductRepositori.getInstance();
+    private ListAdapter bestListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage), categoriListAdapter = new ListAdapter(getContext(), EnumSeparate.categori), lastListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage), mostVisitedListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage);
+
+    /*private ProductRepositori productFetcher;*/
 
 
     public static HomePageFragment newInstance() {
@@ -57,41 +66,45 @@ public class HomePageFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
-
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        productFetcher = ProductRepositori.getInstance();
-        productFetcher.getmCategoriLiveData().observe(getActivity(), new Observer<List<CategoriesItem>>() {
-            @Override
-            public void onChanged(List<CategoriesItem> categoriesItems) {
-                categoriListAdapter.setmListCategori(categoriesItems);
-            }
-        });
+         mViewModelHomePageActivity = ViewModelProviders.of(this).get(ViewModelHomePageActivity.class);
 
-    productFetcher.getmBestProductLiveData().observe(getActivity(), new Observer<List<Product>>() {
-        @Override
-        public void onChanged(List<Product> productList) {
-            bestListAdapter.setmListProduct(productList);
-        }
-    });
-
-    productFetcher.getmLastProductLiveData().observe(getActivity(), new Observer<List<Product>>() {
-        @Override
-        public void onChanged(List<Product> productList) {
-            lastListAdapter.setmListProduct(productList);
-        }
-    });
-
-        productFetcher.getmMostVisitedProductLiveData().observe(getActivity(), new Observer<List<Product>>() {
+        productRepositori.getmBestProductLiveData().observe(getActivity(), new Observer<List<Product>>() {
             @Override
             public void onChanged(List<Product> productList) {
-                mostVisitedListAdapter.setmListProduct(productList);
+                mListBestProduct = productList;
+                BestProductSetAdapter();
             }
         });
+
+        productRepositori.getmMostVisitedProductLiveData().observe(getActivity(), new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> productList) {
+                mListMostVisitedProduct = productList;
+                mostVisitedProductSetAdapter();
+            }
+        });
+
+        productRepositori.getmLastProductLiveData().observe(getActivity(), new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> productList) {
+                mListLastProduct = productList;
+                lastProductSetAdapter();
+            }
+        });
+
+        productRepositori.getmCategoriLiveData().observe(getActivity(), new Observer<List<CategoriesItem>>() {
+            @Override
+            public void onChanged(List<CategoriesItem> categoriesItems) {
+                mListCategori = categoriesItems;
+                categoriListSetAdapter();
+            }
+        });
+
 
     }
 
@@ -100,19 +113,18 @@ public class HomePageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         mBinding = DataBindingUtil.inflate(inflater
                 , R.layout.fragment_home_page
                 , container
                 , false);
 
+        productRepositori.getProduct("rating");
+        productRepositori.getProduct("popularity");
+        productRepositori.getProduct("date");
+        productRepositori.getAllCategori();
+
+
         clickable();
-
-        productFetcher.getProduct("rating");
-        productFetcher.getProduct("popularity");
-        productFetcher.getProduct("date");
-        productFetcher.getAllCategori();
-
 
         bestListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage);
         categoriListAdapter = new ListAdapter(getContext(), EnumSeparate.categori);
@@ -122,6 +134,7 @@ public class HomePageFragment extends Fragment {
 
         mBinding.recyclerViewNewProduct.setLayoutManager(new LinearLayoutManager(getContext()
                 , RecyclerView.HORIZONTAL, false));
+
         mBinding.recyclerViewMostVisitedProducts.setLayoutManager(new LinearLayoutManager(getContext()
                 , RecyclerView.HORIZONTAL, false));
 
@@ -170,7 +183,6 @@ public class HomePageFragment extends Fragment {
         lastListAdapter.setmListProduct(mListLastProduct);
         mBinding.recyclerViewNewProduct.setAdapter(lastListAdapter);
         lastListAdapter.notifyDataSetChanged();
-
     }
 
     private void mostVisitedProductSetAdapter() {
@@ -192,25 +204,5 @@ public class HomePageFragment extends Fragment {
         categoriListAdapter.notifyDataSetChanged();
 
     }
-
-   /* @Override
-    public void onLastProductResponse(List<Product> items) {
-        mListLastProduct=items;
-
-    }
-
-    @Override
-    public void onBestProductResponse(List<Product> items) {
-        mListBestProduct=items;
-    }
-
-    @Override
-    public void onMostVisitedProductResponse(List<Product> items) {
-     mListMostVisitedProduct=items;
-    }
-
-    @Override
-    public void onCategoriResponse(List<CategoriesItem> categoriesItems) {
-        mListCategori=categoriesItems;}*/
 
 }

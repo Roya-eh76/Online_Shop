@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,15 +31,15 @@ public class SeparateListPageFragment extends Fragment {
     private List<Product> mListBestProduct = new ArrayList<>();
     private List<Product> mListMostVisitedProduct = new ArrayList<>();
     private List<Product> mListLastProduct = new ArrayList<>();
-    private List<CategoriesItem> mListCategori = new ArrayList<>();
-    private String str="";
+    private String str = "";
     private ListAdapter mAdapter;
     private FragmentListSeparateBinding mBinding;
+    private ProductRepositori productRepositori = ProductRepositori.getInstance();
 
     public static SeparateListPageFragment newInstance(String str) {
 
         Bundle args = new Bundle();
-        args.putString(PUT_ARGUMENTS_STRING,str);
+        args.putString(PUT_ARGUMENTS_STRING, str);
 
         SeparateListPageFragment fragment = new SeparateListPageFragment();
         fragment.setArguments(args);
@@ -48,7 +49,35 @@ public class SeparateListPageFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        str =getArguments().getString(PUT_ARGUMENTS_STRING);
+        str = getArguments().getString(PUT_ARGUMENTS_STRING);
+
+        productRepositori.getmBestProductLiveData().observe(getActivity(), new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> productList) {
+                mListBestProduct = productList;
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
+        productRepositori.getmMostVisitedProductLiveData().observe(getActivity(), new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> productList) {
+                mListMostVisitedProduct = productList;
+                mAdapter.notifyDataSetChanged();
+                noifiAdapter();
+            }
+        });
+
+        productRepositori.getmLastProductLiveData().observe(getActivity(), new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> productList) {
+                mListLastProduct = productList;
+                mAdapter.notifyDataSetChanged();
+                noifiAdapter();
+            }
+        });
+
+
     }
 
     @Nullable
@@ -56,30 +85,31 @@ public class SeparateListPageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         //View view = inflater.inflate(R.layout.fragment_list_separate, container, false);
-        mBinding= DataBindingUtil.inflate(inflater,
+        mBinding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_list_separate,
                 container,
                 false);
-       ProductRepositori repository = ProductRepositori.getInstance();
 
-        mAdapter=new ListAdapter(getContext(), EnumSeparate.productListHomePage);
+        mAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage);
         mBinding.recyclerViewSeparateListProduct.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-       /* if (str.equals("best")) {
-            mListBestProduct = repository.getBestProduct();
-            mAdapter.setmListProduct(mListBestProduct);
-        } else if (str.equals("last")) {
-            mListLastProduct = repository.getLastProduct();
-            mAdapter.setmListProduct(mListLastProduct);
-        }
-        else if (str.equals("most")) {
-            mListMostVisitedProduct = repository.getMostVisitedProduct();
-            mAdapter.setmListProduct(mListMostVisitedProduct);
-       }*/
-        recyclerViewSeparateListProduct.setAdapter(mAdapter);
+
+        noifiAdapter();
+
+        mBinding.recyclerViewSeparateListProduct.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
 
 
         return mBinding.getRoot();
+    }
+
+    private void noifiAdapter() {
+        if (str.equals("best")) {
+            mAdapter.setmListProduct(mListBestProduct);
+        } else if (str.equals("last")) {
+            mAdapter.setmListProduct(mListLastProduct);
+        } else if (str.equals("most")) {
+            mAdapter.setmListProduct(mListMostVisitedProduct);
+        }
     }
 }
