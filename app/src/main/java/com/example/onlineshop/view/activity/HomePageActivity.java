@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -41,48 +42,46 @@ public class HomePageActivity extends SingleFragmentActivity implements Navigati
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         setContentView(R.layout.navigatiom_drawer);
         setSupportActionBar(toolbar);
-
 
         toolbar = findViewById(R.id.toolber_activity);
         mDrawer = findViewById(R.id.drawer_layout);
         mNavigationView = findViewById(R.id.navigation);
 
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.inflateMenu(R.menu.menu_home_page);
 
-            @Override
-            public void onClick(View v) {
-                if (mDrawer.isDrawerOpen(Gravity.LEFT)) {
-                    mDrawer.closeDrawer(Gravity.LEFT);
-                } else {
-                    mDrawer.openDrawer(Gravity.LEFT);
-                }
+        toolbar.setNavigationOnClickListener(v -> {
+            if (mDrawer.isDrawerOpen(Gravity.RIGHT)) {
+                mDrawer.closeDrawer(Gravity.RIGHT);
+            } else {
+                mDrawer.openDrawer(Gravity.RIGHT);
             }
-
         });
 
         mDrawer.setDrawerListener(toggle);
         mNavigationView.setNavigationItemSelectedListener(this);
-        toggle.syncState();
 
+        toggle.syncState();
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
         mDrawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_home_page, menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_home_page, menu);
+
         return true;
     }
 }

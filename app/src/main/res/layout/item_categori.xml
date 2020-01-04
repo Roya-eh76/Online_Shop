@@ -11,6 +11,7 @@
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:layout_margin="2dp"
+    android:textColor="#ffff"
     android:background="@drawable/button_selector"
     android:id="@+id/textViewNameCategori"
     android:layoutDirection="rtl"

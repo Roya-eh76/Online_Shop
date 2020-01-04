@@ -5,21 +5,22 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.example.onlineshop.network.ProductRepositori;
+import com.example.onlineshop.network.ProductRepository;
 
 public class ViewModelSplashActivity extends AndroidViewModel {
-    private ProductRepositori mProductRepositori;
+    private ProductRepository mProductRepository;
 
     public ViewModelSplashActivity(@NonNull Application application) {
         super(application);
-        mProductRepositori = ProductRepositori.getInstance();
+        mProductRepository = ProductRepository.getInstance();
     }
 
     public void setItemsListsOfHomePage() {
-        mProductRepositori.getAllCategori();
-        mProductRepositori.getProduct("date");
-        mProductRepositori.getProduct("popularity");
-        mProductRepositori.getProduct("rating");
+        mProductRepository.getAllCategories();
+        mProductRepository.getSlider();
+        mProductRepository.getProduct("date");
+        mProductRepository.getProduct("popularity");
+        mProductRepository.getProduct("rating");
     }
 
 }

@@ -16,24 +16,49 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.daimajia.slider.library.SliderLayout
-                android:id="@+id/slider"
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="6dp"
+                android:layout_margin="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content"
+                android:id="@+id/cardview1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/recyclerViewCategori">
+
+                <com.smarteist.autoimageslider.SliderView
+                    android:id="@+id/imageSlider"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:sliderAnimationDuration="1000"
+                    app:sliderAutoCycleDirection="back_and_forth"
+                    app:sliderAutoCycleEnabled="true"
+                    app:sliderCircularHandlerEnabled="true"
+                    app:sliderIndicatorAnimationDuration="5000"
+                    app:sliderIndicatorGravity="center_horizontal|bottom"
+                    app:sliderIndicatorMargin="15dp"
+                    app:sliderIndicatorOrientation="horizontal"
+                    app:sliderIndicatorPadding="3dp"
+                    app:sliderIndicatorRadius="2dp"
+                    app:sliderIndicatorSelectedColor="#5A5A5A"
+                    app:sliderIndicatorUnselectedColor="#FFF"
+                    app:sliderScrollTimeInSec="5"
+                    app:sliderStartAutoCycle="true" />
+
+            </androidx.cardview.widget.CardView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewCategori"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layoutDirection="rtl"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/slider" />
+                app:layout_constraintTop_toBottomOf="@+id/cardview1" />
 
 
             <LinearLayout
+                android:layoutDirection="ltr"
+
                 android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -73,9 +98,13 @@
                 android:id="@+id/recyclerViewNewProduct"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
             <LinearLayout
+                android:layoutDirection="ltr"
+
                 android:id="@+id/linearLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -120,6 +149,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:layoutDirection="rtl"
+
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
             <LinearLayout
@@ -128,6 +159,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
+                android:layoutDirection="ltr"
                 app:layout_constraintBottom_toTopOf="@+id/recyclerViewBestProduct"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -163,7 +195,9 @@
                 android:id="@+id/recyclerViewBestProduct"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/linearLayout4" />
+                app:layout_constraintTop_toBottomOf="@id/linearLayout4"
+                android:layoutDirection="rtl"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </FrameLayout>

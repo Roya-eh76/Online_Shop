@@ -18,7 +18,7 @@ import com.example.onlineshop.R;
 import com.example.onlineshop.databinding.FragmentListSeparateBinding;
 import com.example.onlineshop.model.EnumSeparate;
 import com.example.onlineshop.model.Product;
-import com.example.onlineshop.network.ProductRepositori;
+import com.example.onlineshop.network.ProductRepository;
 import com.example.onlineshop.view.adapter.ListAdapter;
 
 import java.util.ArrayList;
@@ -34,7 +34,8 @@ public class SeparateListPageFragment extends Fragment {
     private String str = "";
     private ListAdapter mAdapter;
     private FragmentListSeparateBinding mBinding;
-    private ProductRepositori productRepositori = ProductRepositori.getInstance();
+    private ProductRepository productRepository = ProductRepository.getInstance();
+
 
     public static SeparateListPageFragment newInstance(String str) {
 
@@ -51,7 +52,8 @@ public class SeparateListPageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         str = getArguments().getString(PUT_ARGUMENTS_STRING);
 
-        productRepositori.getmBestProductLiveData().observe(getActivity(), new Observer<List<Product>>() {
+
+        productRepository.getBestProductLiveData().observe(getActivity(), new Observer<List<Product>>() {
             @Override
             public void onChanged(List<Product> productList) {
                 mListBestProduct = productList;
@@ -59,7 +61,7 @@ public class SeparateListPageFragment extends Fragment {
             }
         });
 
-        productRepositori.getmMostVisitedProductLiveData().observe(getActivity(), new Observer<List<Product>>() {
+        productRepository.getMostVisitedProductLiveData().observe(getActivity(), new Observer<List<Product>>() {
             @Override
             public void onChanged(List<Product> productList) {
                 mListMostVisitedProduct = productList;
@@ -68,7 +70,7 @@ public class SeparateListPageFragment extends Fragment {
             }
         });
 
-        productRepositori.getmLastProductLiveData().observe(getActivity(), new Observer<List<Product>>() {
+        productRepository.getLastProductLiveData().observe(getActivity(), new Observer<List<Product>>() {
             @Override
             public void onChanged(List<Product> productList) {
                 mListLastProduct = productList;
@@ -105,11 +107,11 @@ public class SeparateListPageFragment extends Fragment {
 
     private void noifiAdapter() {
         if (str.equals("best")) {
-            mAdapter.setmListProduct(mListBestProduct);
+            mAdapter.setListProduct(mListBestProduct);
         } else if (str.equals("last")) {
-            mAdapter.setmListProduct(mListLastProduct);
+            mAdapter.setListProduct(mListLastProduct);
         } else if (str.equals("most")) {
-            mAdapter.setmListProduct(mListMostVisitedProduct);
+            mAdapter.setListProduct(mListMostVisitedProduct);
         }
     }
 }

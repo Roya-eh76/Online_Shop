@@ -20,6 +20,7 @@
         android:id="@+id/navigation"
         android:fitsSystemWindows="true"
         app:menu="@menu/item_drawer_navigation"
+
         app:headerLayout="@layout/navigation_header"
         />
 
