@@ -19,12 +19,17 @@ public interface ServiceProduct {
     @GET("products/608")
     Call<Product> getSlider(@QueryMap Map<String, String> productQueries);
 
-    @GET("products/categories")
-    Call<List<CategoriesItem>> getProductCategory(@QueryMap Map<String, String> categoryQueries);
 
     @GET("products/?")
     Call<List<Product>> getAllProducts(@Query("orderby") String orderType, @QueryMap  Map<String, String> productQueries);
 
     @GET("products/categories")
-    Call<List<CategoriesItem>> getAllCategories(@QueryMap  Map<String, String> productQueries);
+    Call<List<CategoriesItem>> getAllCategories(@QueryMap  Map<String, String> productQueries,@Query("parent") String parent);
+
+    @GET("products/categories")
+    Call<List<CategoriesItem>> getSubCategories(@QueryMap  Map<String, String> productQueries,@Query("parent") String parent);
+
+
+
+
 }

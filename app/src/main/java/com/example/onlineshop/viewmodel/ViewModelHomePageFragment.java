@@ -12,7 +12,7 @@ import com.example.onlineshop.network.ProductRepository;
 
 import java.util.List;
 
-public class ViewModelHomePageFragment extends AndroidViewModel {
+public class ViewModelHomePageFragment extends ViewModelConnectivity {
     private MutableLiveData<List<Product>> mBestProductLiveData;
     private MutableLiveData<List<Product>> mMostVisitedProductLiveData;
     private MutableLiveData<List<Product>> mLastProductLiveData;

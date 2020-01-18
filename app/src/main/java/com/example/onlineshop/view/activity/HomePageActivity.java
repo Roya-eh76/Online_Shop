@@ -67,6 +67,7 @@ public class HomePageActivity extends SingleFragmentActivity implements Navigati
         mNavigationView.setNavigationItemSelectedListener(this);
 
         toggle.syncState();
+
     }
 
 

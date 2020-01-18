@@ -8,6 +8,7 @@ import com.example.onlineshop.model.CategoriesItem;
 import com.example.onlineshop.model.Product;
 import com.example.onlineshop.network.interfaces.ServiceProduct;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,8 @@ public class ProductRepository {
     private MutableLiveData<List<Product>> mAllProduct = new MutableLiveData<>();
     private MutableLiveData<Product> mSliderProduct = new MutableLiveData<>();
     private MutableLiveData<List<Product>> mSearchProduct = new MutableLiveData<>();
+    private MutableLiveData<List<CategoriesItem>> mSubCategoriesItem =new MutableLiveData<>();
+    private  List<CategoriesItem> categoriesItems=new ArrayList<>();
 
     public static ProductRepository getInstance() {
         if (sInstance == null)
@@ -42,6 +45,10 @@ public class ProductRepository {
 
     public MutableLiveData<Product> getSliderProduct() {
         return mSliderProduct;
+    }
+
+    public MutableLiveData<List<CategoriesItem>> getSubCategoriesItem() {
+        return mSubCategoriesItem;
     }
 
     public MutableLiveData<List<CategoriesItem>> getCategoriesLiveData() {
@@ -84,8 +91,15 @@ public class ProductRepository {
     }
 
     public void getAllCategories() {
-        Call<List<CategoriesItem>> call = mServiceProduct.getAllCategories(mQueries);
+        Call<List<CategoriesItem>> call = mServiceProduct.getAllCategories(mQueries,"0");
         call.enqueue(getRetrofitCategoriesCallBack());
+    }
+
+    public void getSubCategories(String str){
+        Call<List<CategoriesItem>> call =mServiceProduct.getSubCategories(mQueries, str);
+        mSubCategoriesItem=new MutableLiveData<>();
+        call.enqueue(getRetrofitSubCategorisCallBack());
+
     }
 
     public void getProduct(String orderType) {
@@ -101,6 +115,25 @@ public class ProductRepository {
     public void getSlider(){
         Call<Product> call = mServiceProduct.getSlider(mQueries);
         call.enqueue(getRetrofitSliderCallback());
+    }
+
+    private Callback<List<CategoriesItem>> getRetrofitSubCategorisCallBack(){
+
+        mSubCategoriesItem=new MutableLiveData<>();
+
+        return new Callback<List<CategoriesItem>>() {
+
+            @Override
+            public void onResponse(Call<List<CategoriesItem>> call, Response<List<CategoriesItem>> response) {
+                List<CategoriesItem> categoriesItems =response.body();
+                mSubCategoriesItem.setValue(categoriesItems);
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriesItem>> call, Throwable t) {
+
+            }
+        };
     }
 
     private Callback<List<Product>> getRetrofitProductsCallback() {
@@ -132,6 +165,7 @@ public class ProductRepository {
             }
         };
     }
+
 
     private Callback<List<CategoriesItem>> getRetrofitCategoriesCallBack() {
         return new Callback<List<CategoriesItem>>() {
@@ -187,8 +221,11 @@ public class ProductRepository {
      call.enqueue(new Callback<List<Product>>() {
          @Override
          public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+             if (response.isSuccessful()){
              List<Product> list=response.body();
-             mSearchProduct.setValue(list);
+             mSearchProduct.setValue(list);}
+             else {
+             }
          }
 
          @Override

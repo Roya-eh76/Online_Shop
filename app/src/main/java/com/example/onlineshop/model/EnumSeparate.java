@@ -1,5 +1,5 @@
 package com.example.onlineshop.model;
 
 public enum EnumSeparate {
-    category,productListHomePage
+    category,productListHomePage,subCategories
 }

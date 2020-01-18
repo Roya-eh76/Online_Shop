@@ -16,9 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
+
 import com.example.onlineshop.R;
 import com.example.onlineshop.databinding.FragmentHomePageBinding;
 import com.example.onlineshop.model.CategoriesItem;
@@ -46,10 +44,10 @@ public class HomePageFragment extends Fragment {
     private List<CategoriesItem> mListCategori = new ArrayList<>();
     private FragmentHomePageBinding mBinding;
     private ViewModelHomePageFragment mViewModelHomePageActivity;
-    private ListAdapter bestListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage),
-            categoriListAdapter = new ListAdapter(getContext(), EnumSeparate.category),
-            lastListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage),
-            mostVisitedListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage);
+    private ListAdapter bestListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage,1),
+            categoriListAdapter = new ListAdapter(getContext(), EnumSeparate.category,0),
+            lastListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage,1),
+            mostVisitedListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage,1);
     private SliderAdapter mSliderAdapter;
 
 
@@ -126,10 +124,10 @@ public class HomePageFragment extends Fragment {
         clickable();
 
         mSliderAdapter=new SliderAdapter(getContext());
-        bestListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage);
-        categoriListAdapter = new ListAdapter(getContext(), EnumSeparate.category);
-        lastListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage);
-        mostVisitedListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage);
+        bestListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage,1);
+        categoriListAdapter = new ListAdapter(getContext(), EnumSeparate.category,0);
+        lastListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage,1);
+        mostVisitedListAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage,1);
 
 
         mBinding.recyclerViewNewProduct.setLayoutManager(new LinearLayoutManager(getContext()
@@ -145,7 +143,6 @@ public class HomePageFragment extends Fragment {
                 , RecyclerView.HORIZONTAL, false));
 
         mBinding.imageSlider.setSliderAdapter(mSliderAdapter);
-
 
 
         lastProductSetAdapter();

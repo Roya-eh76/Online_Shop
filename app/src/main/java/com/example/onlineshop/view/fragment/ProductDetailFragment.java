@@ -14,9 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.onlineshop.R;
 import com.example.onlineshop.databinding.FragmentProductDetailBinding;
 import com.example.onlineshop.model.Product;
@@ -92,8 +89,6 @@ public class ProductDetailFragment extends Fragment {
 
             }
         });
-
-
 
 
     }

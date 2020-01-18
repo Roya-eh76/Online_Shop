@@ -11,7 +11,7 @@ import com.example.onlineshop.network.ProductRepository;
 
 import java.util.List;
 
-public class ViewModelDetailFragment extends AndroidViewModel {
+public class ViewModelDetailFragment extends ViewModelConnectivity {
 
     private ProductRepository mProductRepository=ProductRepository.getInstance();
     private MutableLiveData<List<Product>> mListMutableLiveData;

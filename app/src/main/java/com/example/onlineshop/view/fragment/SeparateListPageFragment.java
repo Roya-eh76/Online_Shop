@@ -92,7 +92,7 @@ public class SeparateListPageFragment extends Fragment {
                 container,
                 false);
 
-        mAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage);
+        mAdapter = new ListAdapter(getContext(), EnumSeparate.productListHomePage,2);
         mBinding.recyclerViewSeparateListProduct.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
 

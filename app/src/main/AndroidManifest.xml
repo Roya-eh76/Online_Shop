@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.onlineshop">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activity.ShoppingPageActivity"></activity>
+        <activity android:name=".view.activity.CheckNetworkActivity" />
+        <activity android:name=".view.activity.ViewPagerCategoryActivity" />
+        <activity android:name=".view.activity.ShoppingPageActivity" />
         <activity android:name=".view.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +26,7 @@
         </activity>
         <activity android:name=".view.activity.ProductDetailActivity" />
         <activity android:name=".view.activity.SingleFragmentActivity" />
-        <activity android:name=".view.activity.HomePageActivity"></activity>
+        <activity android:name=".view.activity.HomePageActivity" />
         <activity android:name=".view.activity.SeparateListPageActivity" />
     </application>
 
